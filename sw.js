@@ -53,19 +53,13 @@ self.addEventListener('activate', (e) =>{
 })
 
 self.addEventListener('fetch', (e) =>{
+    //Método cache Only
     e.respondWith(
         caches.match(e.request).then((response) => {
-          // Si la solicitud está en la caché, la servimos desde la caché
           if (response) {
             return response;
           }
-    
-          /*if (e.request.url.includes('/page2.html')) {
-            return caches.match('pages/offline.html');
-          }*/
-    
           return fetch(e.request).catch(() => {
-            // Si no se puede obtener de Internet, respondemos con la página offline
             if (e.request.url.includes('/page2.html'))
                 return caches.match('pages/offline.html');
           });
